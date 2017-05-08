@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Bootstrap Case</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/full_styles.css" preload>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script>
+        <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js" preload></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script>
+        
+        <style>
+        html,
+        body {
+        margin: 0;
+        padding: 0;
+        }
+        
+        .nav ul {
+        list-style-type: none;
+        margin: 0 0 16px 0;
+        padding: 0;
+        overflow: hidden;
+        background: linear-gradient(45deg, rgba(0, 105, 93, 1) 0%, rgba(0, 102, 90, 1) 26%, rgba(46, 146, 83, 1) 71%, rgba(76, 175, 79, 1) 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.16);
+        font-family: 'Roboto', sans-serif;
+        }
+        /*The slideshow*/
+        
+        .slideshow-container {
+        max-width: 1000px;
+        max-height: 400px;
+        height: 400px;
+        position: relative;
+        margin: auto;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        }
+        
+        .mySlides {
+        display: none;
+        }
+        
+        .prev,
+        .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        }
+        
+        .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+        }
+        
+        .prev:hover,
+        .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .text {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+        }
+        
+        .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+        }
+        
+        .dot {
+        cursor: pointer;
+        height: 13px;
+        width: 13px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+        }
+        
+        .active,
+        .dot:hover {
+        background-color: #717171;
+        }
+      
+        </style>
+    </head>
+    <body>
+        <nav class="nav">
+            <ul>
+                <div class="containerbig">
+                     <li class="brandli"><a class="brandtext" href="#home">Jananistore</a></li>
+                    <li class="burger"></li>
+                    <li class="person"><img src="/image/person.svg"><sup><img src="/image/dropdown.svg"></sup>
+                        <div class="modallogin">
+                            <h3>Your Account</h3>
+                            <p>Access your account and manage order</p>
+                            <button class="modalbtn" type="">SIGN UP</button>
+                            <button class="modalbtn" type="">LOGIN</button>
+                        </div>
+                    </li>
+                    <li class="navfull"><a href="#news">Team</a></li>
+                    <li class="navfull"><a href="#contact">Contact</a></li>
+                    <li class="navfull"><a href="#about">About</a></li>
+                    <li class="searchli">
+                        <form>
+                            <input type="text" name="search" placeholder="Search..">
+                        </form>
+                    </li>
+                </div>
+            </ul>
+        </nav>
+        <main ng-app="slideshow" ng-controller="slider">
+        <div class="slideshow-container">
+            <div ng-repeat="link in links  track by $index">
+                <div class="mySlides slideeffect">
+                    <img ng-src="{{link}}" style="width:100%;height: 100%">
+                    <div class="text">Caption Text</div>
+                </div>
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <br>
+        <div style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+        
+        </main>
+    </body>
+    <script>
+    var slideIndex = 1;
+    var slideshow = angular.module("slideshow", ["firebase"]);
+    
+    slideshow.controller('slider', function ($scope,$firebaseObject) {
+    var ref = firebase.database().ref().child("/public/mainslider/");
+    $scope.links = $firebaseObject(ref);
+    });
+    
+    
+    
+    function plusSlides(n) {
+    showSlides(slideIndex += n);
+    }
+    function currentSlide(n) {
+    showSlides(slideIndex = n);
+    }
+    function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {
+    slideIndex = 1
+    }
+    if (n < 1) {
+    slideIndex = slides.length
+    }
+    for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    }
+    //
+    //
+    window.setInterval(function () {
+    plusSlides(1)
+    }, 5000);
+    //
+    //
+    //
+    showSlides(slideIndex);
+    </script>
+    <script>
+    var config = {
+    apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
+    authDomain: "jananistore-f4928.firebaseapp.com",
+    databaseURL: "https://jananistore-f4928.firebaseio.com",
+    projectId: "jananistore-f4928",
+    storageBucket: "jananistore-f4928.appspot.com",
+    messagingSenderId: "538178486843"
+    };
+    firebase.initializeApp(config);
+    
+    </script>
+</html>
