@@ -1,0 +1,13 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/bin/nodejs /usr/bin/firebase --debug init
+[debug] CLI Version:  3.6.0
+[debug] Platform:     linux
+[debug] Node Version: v6.10.0
+[debug] Time:         Thu Apr 06 2017 22:34:29 GMT+0530 (IST)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[error] 
+[error] Error: There was an error loading firebase.json:
+
+Parse Error: Imported file database.rules.json does not exist

@@ -26,7 +26,7 @@
         font-family: 'Roboto', sans-serif;
         }
         /*The slideshow*/
-        
+        @media screen and (min-width: 720px) {
         .slideshow-container {
         max-width: 1000px;
         max-height: 400px;
@@ -36,7 +36,18 @@
         overflow-y: hidden;
         overflow-x: hidden;
         }
-        
+        }
+        @media screen and (max-width: 721px) {
+        .slideshow-container {
+        max-width: 1000px;
+        max-height: 310px;
+        height: 310px;
+        position: relative;
+        margin: auto;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        }
+        }
         .mySlides {
         display: none;
         }
@@ -99,14 +110,14 @@
         .dot:hover {
         background-color: #717171;
         }
-      
+        
         </style>
     </head>
     <body>
         <nav class="nav">
             <ul>
                 <div class="containerbig">
-                     <li class="brandli"><a class="brandtext" href="#home">Jananistore</a></li>
+                    <li class="brandli"><a class="brandtext" href="#home">Jananistore</a></li>
                     <li class="burger"></li>
                     <li class="person"><img src="/image/person.svg"><sup><img src="/image/dropdown.svg"></sup>
                         <div class="modallogin">
@@ -131,8 +142,7 @@
         <div class="slideshow-container">
             <div ng-repeat="link in links  track by $index">
                 <div class="mySlides slideeffect">
-                    <img ng-src="{{link}}" style="width:100%;height: 100%">
-                    <div class="text">Caption Text</div>
+                    <img ng-src="{{link.ImageUrl}}" style="width:100%;height: 100%">
                 </div>
             </div>
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -140,9 +150,8 @@
         </div>
         <br>
         <div style="text-align:center">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" ng-repeat="link in links  track by $index"  ng-click="currentSlid($index)"></span>
+            
         </div>
         
         </main>
@@ -150,20 +159,29 @@
     <script>
     var slideIndex = 1;
     var slideshow = angular.module("slideshow", ["firebase"]);
-    
-    slideshow.controller('slider', function ($scope,$firebaseObject) {
-    var ref = firebase.database().ref().child("/public/mainslider/");
-    $scope.links = $firebaseObject(ref);
-    });
-    
-    
-    
+    showSlides(slideIndex);
+
+
     function plusSlides(n) {
     showSlides(slideIndex += n);
     }
     function currentSlide(n) {
     showSlides(slideIndex = n);
     }
+
+
+
+    slideshow.controller('slider', function ($scope,$firebaseObject) {
+    var ref = firebase.database().ref().child("/public/mainslider/");
+    $scope.links = $firebaseObject(ref);
+    $scope.currentSlid = function(e){
+    currentSlide(e+1);
+    };
+    });
+    
+    
+    
+    
     function showSlides(n) {
     var i;
     var slides = document.getElementsByClassName("mySlides");
@@ -187,11 +205,10 @@
     //
     window.setInterval(function () {
     plusSlides(1)
-    }, 5000);
+    }, 9000);
     //
     //
     //
-    showSlides(slideIndex);
     </script>
     <script>
     var config = {
