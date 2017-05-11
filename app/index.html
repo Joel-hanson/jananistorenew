@@ -5,14 +5,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/full_styles.css" preload>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script> -->
         <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js" preload></script>
-        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script>
+        <!-- <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script> -->
         <style>
         html,
         body {
         margin: 0;
         padding: 0;
+        background-color: #EEEEEE;
+        overflow-x: hidden;
         }
         
         .nav ul {
@@ -34,6 +36,12 @@
         margin: auto;
         overflow-y: hidden;
         overflow-x: hidden;
+        background-color: #BDBDBD;
+        
+        }
+        .mainslider{
+        height: 450px;
+        background-color: #EEEEEE;
         }
         }
         @media screen and (max-width: 721px) {
@@ -45,6 +53,11 @@
         margin: auto;
         overflow-y: hidden;
         overflow-x: hidden;
+        background-color: #BDBDBD;
+        }
+        .mainslider{
+        height: 350px;
+        background-color: #EEEEEE;
         }
         }
         .mySlides {
@@ -59,7 +72,7 @@
         width: auto;
         margin-top: -22px;
         padding: 16px;
-        color: white;
+        color:#47aa4f;
         font-weight: bold;
         font-size: 18px;
         transition: 0.6s ease;
@@ -109,11 +122,85 @@
         .dot:hover {
         background-color: #717171;
         }
+        .subsliders{
+        background-color: #fff;
+        position: relative;
+        width: 100%;
+        height: 500px;
+        }
+        .subslidercard_{
+        width: 300px;
+        height: 300px;
+        box-shadow: 0 15px 20px 0 rgba(46,61,73,.15);
+        transition: all .3s ease;
+        border-radius: 12px;
+        margin: 30px;
+        background-color: #fff;
+        position: absolute;
+        }
+        .subslidercard_:hover{
+        box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
+        }
         
+        .subsliderimg{
+        position: absolute;
+        display: flex;
+        overflow-x: hidden;
+        transform: translateX(0px);
+        margin-top: 60px;
+        }
+        .subsliderimg img{
+        padding: 12px;
+        }
+        .rightsubsliderarrow{
+        width: 50px;
+        height: 70px;
+        box-shadow: 0 15px 20px 0 rgba(46,61,73,.15);
+        transition: all .3s ease;
+        border-radius: 9px;
+        margin: 145px 0 0 0 ;
+        background-color: #fff;
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;justify-content: center;
+        }
+        .rightsubsliderarrow a{
+        font-size: 50px;
+        text-decoration: none;
+        color:#47aa4f;
+        }
+        .rightsubsliderarrow:hover{
+        
+        box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
+        }
+        .leftsubsliderarrow{
+            width: 50px;
+        height: 70px;
+        box-shadow: 0 15px 20px 0 rgba(46,61,73,.15);
+        transition: all .3s ease;
+        border-radius: 12px;
+        margin:  145px 0 0 390px;
+        background-color: #fff;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        }
+        .leftsubsliderarrow a{
+        font-size: 50px;
+        text-decoration: none;
+        color:#47aa4f;
+        }
+        .leftsubsliderarrow:hover{
+        box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
+        }
+        .subslider_{}
         </style>
     </head>
     <body>
-            <nav class="nav">
+        <nav class="nav">
             <ul>
                 <div class="containerbig">
                     <li class="brandli"><a class="brandtext" href="#home">Jananistore</a></li>
@@ -127,7 +214,6 @@
                         </div>
                     </li>
                     <li class="navfull"><a href="#news">Team</a></li>
-                    
                     <li class="navfull"><a href="#contact">Contact</a></li>
                     <li class="navfull"><a href="#about">About</a></li>
                     <li class="searchli">
@@ -138,88 +224,102 @@
                 </div>
             </ul>
         </nav>
-        <main ng-app="slideshow" ng-controller="slider">
-        <div class="slideshow-container">
-            <div ng-repeat="link in links  track by $index">
-                <div class="mySlides slideeffect">
-                    <img ng-src="{{link.ImageUrl}}" style="width:100%;height: 100%">
+        <main ng-app="slideshow" ng-controller="slider" >
+        <!--  <section class="mainslider">
+            
+            <div class="slideshow-container">
+                <div ng-repeat="link in links  track by $index">
+                    <div class="mySlides slideeffect">
+                        <img ng-src="{{link.ImageUrl}}" style="width:100%;height: 100%">
+                    </div>
                 </div>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-        <br>
-        <div style="text-align:center">
-            <span class="dot" ng-repeat="link in links  track by $index"  ng-click="currentSlid($index)"></span>
+            <br>
+            <div style="text-align:center">
+                <span class="dot" ng-repeat="link in links  track by $index"  ng-click="currentSlid($index)"></span>
+            </div>
+        </section> -->
+        <div class="subsliders">
+            <div class="subsliderimg">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+            </div>
+            <div class="subslider_">
+                <div class="subslidercard_"></div>
+                <div class="leftsubsliderarrow"><a href="#">&#10094;</a></div>
+                <div class="rightsubsliderarrow"><a href="#">&#10095;</a></div>
+            </div>
+            
             
         </div>
-        
         </main>
+        
     </body>
     <script>
-    var slideIndex = 1;
-    var slideshow = angular.module("slideshow", ["firebase"]);
-    showSlides(slideIndex);
-
-
-    function plusSlides(n) {
-    showSlides(slideIndex += n);
-    }
-    function currentSlide(n) {
-    showSlides(slideIndex = n);
-    }
-
-
-
-    slideshow.controller('slider', function ($scope,$firebaseObject) {
-    var ref = firebase.database().ref().child("/public/mainslider/");
-    $scope.links = $firebaseObject(ref);
-    $scope.currentSlid = function(e){
-    currentSlide(e+1);
-    };
-    });
+    // var slideIndex = 1;
+    // var slideshow = angular.module("slideshow", ["firebase"]);
+    // showSlides(slideIndex);
+    // function plusSlides(n) {
+    // showSlides(slideIndex += n);
+    // }
+    // function currentSlide(n) {
+    // showSlides(slideIndex = n);
+    // }
+    // slideshow.controller('slider', function ($scope,$firebaseObject) {
+    // var ref = firebase.database().ref().child("/public/mainslider/");
+    // $scope.links = $firebaseObject(ref);
+    // $scope.currentSlid = function(e){
+    // currentSlide(e+1);
+    // };
+    // });
     
     
     
     
-    function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-    slideIndex = 1
-    }
-    if (n < 1) {
-    slideIndex = slides.length
-    }
-    for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    }
-    //
-    //
-    window.setInterval(function () {
-    plusSlides(1)
-    }, 9000);
-    //
-    //
-    //
+    // function showSlides(n) {
+    // var i;
+    // var slides = document.getElementsByClassName("mySlides");
+    // var dots = document.getElementsByClassName("dot");
+    // if (n > slides.length) {
+    // slideIndex = 1
+    // }
+    // if (n < 1) {
+    // slideIndex = slides.length
+    // }
+    // for (i = 0; i < slides.length; i++) {
+    // slides[i].style.display = "none";
+    // }
+    // for (i = 0; i < dots.length; i++) {
+    // dots[i].className = dots[i].className.replace(" active", "");
+    // }
+    // slides[slideIndex - 1].style.display = "block";
+    // dots[slideIndex - 1].className += " active";
+    // }
+    // //
+    // //
+    // window.setInterval(function () {
+    // plusSlides(1)
+    // }, 9000);
+    // //
+    // //
+    // //
     </script>
     <script>
-    var config = {
-    apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
-    authDomain: "jananistore-f4928.firebaseapp.com",
-    databaseURL: "https://jananistore-f4928.firebaseio.com",
-    projectId: "jananistore-f4928",
-    storageBucket: "jananistore-f4928.appspot.com",
-    messagingSenderId: "538178486843"
-    };
-    firebase.initializeApp(config);
+    // var config = {
+    // apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
+    // authDomain: "jananistore-f4928.firebaseapp.com",
+    // databaseURL: "https://jananistore-f4928.firebaseio.com",
+    // projectId: "jananistore-f4928",
+    // storageBucket: "jananistore-f4928.appspot.com",
+    // messagingSenderId: "538178486843"
+    // };
+    // firebase.initializeApp(config);
     
     </script>
 </html>
