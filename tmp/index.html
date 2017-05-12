@@ -5,9 +5,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/full_styles.css" preload>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script> -->
         <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js" preload></script>
-        <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script>
+        <!-- <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script> -->
         <style>
         html,
         body {
@@ -72,7 +72,7 @@
         width: auto;
         margin-top: -22px;
         padding: 16px;
-        color:#EEEEEE;
+        color:#47aa4f;
         font-weight: bold;
         font-size: 18px;
         transition: 0.6s ease;
@@ -131,15 +131,12 @@
         .subslidercard_{
         width: 300px;
         height: 300px;
-        box-shadow: 0 20px 20px 10px rgba(46,61,73,.15);
+        box-shadow: 0 15px 20px 0 rgba(46,61,73,.15);
         transition: all .3s ease;
         border-radius: 12px;
         margin: 30px;
-        background-color: #EEEEEE;
+        background-color: #fff;
         position: absolute;
-        display: flex;
-        align-items: center;justify-content: center;
-        font-family: 'Roboto', sans-serif;
         }
         .subslidercard_:hover{
         box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
@@ -151,47 +148,55 @@
         overflow-x: hidden;
         transform: translateX(0px);
         margin-top: 60px;
-        transition: transform 1s ease-out;
         }
         .subsliderimg img{
         padding: 12px;
-        width: 250px;
-        height: 250px;
         }
-        .rightsubsliderarrow,.leftsubsliderarrow{
+        .rightsubsliderarrow{
         width: 50px;
         height: 70px;
-        box-shadow: 0 20px 20px 10px rgba(46,61,73,.15);
-        transition: all 2s ease;
+        box-shadow: 0 15px 20px 0 rgba(46,61,73,.15);
+        transition: all .3s ease;
         border-radius: 9px;
-        background-color: #EEEEEE;
+        margin: 145px 0 0 0 ;
+        background-color: #fff;
         position: absolute;
+        right: 0;
         display: flex;
         align-items: center;justify-content: center;
         }
-        .rightsubsliderarrow{
-        margin: 145px 0 0 0 ;
-        right: 0;
-        
-        }
-        
-        .rightsubsliderarrow a,.leftsubsliderarrow a{
+        .rightsubsliderarrow a{
         font-size: 50px;
         text-decoration: none;
-        color:#000;
-        cursor: pointer;
+        color:#47aa4f;
         }
-        .rightsubsliderarrow:hover,.leftsubsliderarrow:hover{
+        .rightsubsliderarrow:hover{
         
         box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
         }
         .leftsubsliderarrow{
+            width: 50px;
+        height: 70px;
+        box-shadow: 0 15px 20px 0 rgba(46,61,73,.15);
+        transition: all .3s ease;
+        border-radius: 12px;
         margin:  145px 0 0 390px;
+        background-color: #fff;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         }
-        
-        
-        .subslider_{
+        .leftsubsliderarrow a{
+        font-size: 50px;
+        text-decoration: none;
+        color:#47aa4f;
         }
+        .leftsubsliderarrow:hover{
+        box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
+        }
+        .subslider_{}
         </style>
     </head>
     <body>
@@ -220,7 +225,7 @@
             </ul>
         </nav>
         <main ng-app="slideshow" ng-controller="slider" >
-        <section class="mainslider">
+        <!--  <section class="mainslider">
             
             <div class="slideshow-container">
                 <div ng-repeat="link in links  track by $index">
@@ -235,17 +240,20 @@
             <div style="text-align:center">
                 <span class="dot" ng-repeat="link in links  track by $index"  ng-click="currentSlid($index)"></span>
             </div>
-        </section>
-        <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index" >
+        </section> -->
+        <div class="subsliders">
             <div class="subsliderimg">
-                <img  ng-repeat="sub in subslider" ng-src="{{sub.ImageUrl}}" alt="Subslider images">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
+                <img src="https://unsplash.it/200/200/?random" alt="reandom  imagee">
             </div>
             <div class="subslider_">
-                <div class="subslidercard_">
-                    <h1>{{subslider.$id}}</h1>
-                </div>
-                <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,300)" >&#10094;</a></div>
-                <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-300)" >&#10095;</a></div>
+                <div class="subslidercard_"></div>
+                <div class="leftsubsliderarrow"><a href="#">&#10094;</a></div>
+                <div class="rightsubsliderarrow"><a href="#">&#10095;</a></div>
             </div>
             
             
@@ -254,77 +262,64 @@
         
     </body>
     <script>
-    var slideIndex = 1;
-    var slideshow = angular.module("slideshow", ["firebase"]);
-    showSlides(slideIndex);
-    function plusSlides(n) {
-    showSlides(slideIndex += n);
-    }
-    function currentSlide(n) {
-    showSlides(slideIndex = n);
-    }
-    slideshow.controller('slider', function ($scope,$firebaseObject,$firebaseArray) {
-    var ref = firebase.database().ref().child("/public/mainslider/");
-    $scope.links = $firebaseObject(ref);
-    $scope.currentSlid = (e) => {
-    currentSlide(e+1);
-    };
-    var ref1 = firebase.database().ref().child("/public/products/category/");
-    $scope.subsliders_ = $firebaseArray(ref1);
-    var value ;
-    $scope.subsliders_.$loaded().then((notes)=>{
-    value = new Array(notes.length);
-     for (var i = 0; i < value.length; ++i) {
-        value[i] = 0;
-    }
-       return value;
-    });
-    $scope.nextsubslider = (e,n) =>{
-    value[e]  = value[e] +n;
-    document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
-    return value;
-    };
-    $scope.prevsubslider = (e,n) =>{
-    value[e]  = value[e] +n;
-    document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
-    return value;
-    };
-
-    });
+    // var slideIndex = 1;
+    // var slideshow = angular.module("slideshow", ["firebase"]);
+    // showSlides(slideIndex);
+    // function plusSlides(n) {
+    // showSlides(slideIndex += n);
+    // }
+    // function currentSlide(n) {
+    // showSlides(slideIndex = n);
+    // }
+    // slideshow.controller('slider', function ($scope,$firebaseObject) {
+    // var ref = firebase.database().ref().child("/public/mainslider/");
+    // $scope.links = $firebaseObject(ref);
+    // $scope.currentSlid = function(e){
+    // currentSlide(e+1);
+    // };
+    // });
     
-    function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {
-    slideIndex = 1
-    }
-    if (n < 1) {
-    slideIndex = slides.length
-    }
-    for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-    }
-    window.setInterval(function () {
-    plusSlides(1)
-    }, 9000);
+    
+    
+    
+    // function showSlides(n) {
+    // var i;
+    // var slides = document.getElementsByClassName("mySlides");
+    // var dots = document.getElementsByClassName("dot");
+    // if (n > slides.length) {
+    // slideIndex = 1
+    // }
+    // if (n < 1) {
+    // slideIndex = slides.length
+    // }
+    // for (i = 0; i < slides.length; i++) {
+    // slides[i].style.display = "none";
+    // }
+    // for (i = 0; i < dots.length; i++) {
+    // dots[i].className = dots[i].className.replace(" active", "");
+    // }
+    // slides[slideIndex - 1].style.display = "block";
+    // dots[slideIndex - 1].className += " active";
+    // }
+    // //
+    // //
+    // window.setInterval(function () {
+    // plusSlides(1)
+    // }, 9000);
+    // //
+    // //
+    // //
     </script>
     <script>
-    var config = {
-    apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
-    authDomain: "jananistore-f4928.firebaseapp.com",
-    databaseURL: "https://jananistore-f4928.firebaseio.com",
-    projectId: "jananistore-f4928",
-    storageBucket: "jananistore-f4928.appspot.com",
-    messagingSenderId: "538178486843"
-    };
-    firebase.initializeApp(config);
+    // var config = {
+    // apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
+    // authDomain: "jananistore-f4928.firebaseapp.com",
+    // databaseURL: "https://jananistore-f4928.firebaseio.com",
+    // projectId: "jananistore-f4928",
+    // storageBucket: "jananistore-f4928.appspot.com",
+    // messagingSenderId: "538178486843"
+    // };
+    // firebase.initializeApp(config);
     
     </script>
 </html>
