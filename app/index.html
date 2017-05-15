@@ -122,11 +122,12 @@
         .dot:hover {
         background-color: #717171;
         }
+        @media screen and (min-width: 720px) {
         .subsliders{
         background-color: #fff;
         position: relative;
         width: 100%;
-        height: 500px;
+        height: 400px;
         }
         .subslidercard_{
         width: 300px;
@@ -149,20 +150,21 @@
         position: absolute;
         display: flex;
         overflow-x: hidden;
-        transform: translateX(0px);
+        transform: translateX(450px);
         margin-top: 60px;
         transition: transform 1s ease-out;
         }
         .subsliderimg img{
-        padding: 12px;
-        width: 250px;
-        height: 250px;
+        margin: 12px;
+        width: 238px;
+        height: 238px;
+        background-color: #EEEEEE;
         }
         .rightsubsliderarrow,.leftsubsliderarrow{
         width: 50px;
         height: 70px;
         box-shadow: 0 20px 20px 10px rgba(46,61,73,.15);
-        transition: all 2s ease;
+        transition: all 0.3s ease;
         border-radius: 9px;
         background-color: #EEEEEE;
         position: absolute;
@@ -189,8 +191,55 @@
         margin:  145px 0 0 390px;
         }
         
+        }
+        @media screen and (max-width: 721px) {
+        .subsliders{
+        background-color: #fff;
+        position: relative;
+        width: 100%;
+        height: 400px;
+        padding:  20px 0 0 0;
+        margin: 20px 0 30px 0;
+        }
+.mobilesubslider{
+    display: flex;align-items: center;justify-content: center;
+}
+        .subsliderimg{
+        position: absolute;
+        display: flex;
+        overflow-x: hidden;
+        margin-top: 60px;
+        top: 80px;
+        }
+        .subsliderimg img{
+        width: 100%;
+        height: 180px;
+        }
+        .leftsubsliderarrow,.rightsubsliderarrow{
+        width: 50px;
+        height: 70px;
+        background-color: #EEEEEE;
+        position: absolute;
+        box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;justify-content: center;
+        top: 200px;
+
+        }
+        .rightsubsliderarrow{
+        right:  0;
+        }
+        .leftsubsliderarrow{
+        left:0;
+        }
         
-        .subslider_{
+        .subslidercard_ h1{
+        font-size: 20px;
+        font-weight: 500;
+        font-family: 'Roboto', sans-serif;
+        text-align: center;
+        }
         }
         </style>
     </head>
@@ -219,9 +268,8 @@
                 </div>
             </ul>
         </nav>
-        <main ng-app="slideshow" ng-controller="slider" >
+        <main ng-app="slideshow" ng-controller="slider"  ng-cloak>
         <section class="mainslider">
-            
             <div class="slideshow-container">
                 <div ng-repeat="link in links  track by $index">
                     <div class="mySlides slideeffect">
@@ -236,20 +284,25 @@
                 <span class="dot" ng-repeat="link in links  track by $index"  ng-click="currentSlid($index)"></span>
             </div>
         </section>
-        <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index" >
-            <div class="subsliderimg">
-                <img  ng-repeat="sub in subslider" ng-src="{{sub.ImageUrl}}" alt="Subslider images">
-            </div>
-            <div class="subslider_">
-                <div class="subslidercard_">
-                    <h1>{{subslider.$id}}</h1>
+        <section class="subslidersection">
+            
+            <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index" >
+            <div class="mobilesubslider">
+                <div class="subsliderimg">
+                    <!-- <img  ng-repeat="sub in subslider" ng-src="{{sub.ImageUrl}}" alt="Subslider images"> -->
+                    <img src="https://unsplash.it/200/200" alt="">
                 </div>
-                <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,300)" >&#10094;</a></div>
-                <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-300)" >&#10095;</a></div>
             </div>
-            
-            
-        </div>
+                
+                <div class="subslider_">
+                    <div class="subslidercard_">
+                        <h1>{{subslider.$id}}</h1>
+                    </div>
+                    <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,250)" >&#10094;</a></div>
+                    <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-250)" >&#10095;</a></div>
+                </div>
+            </div>
+        </section>
         </main>
         
     </body>
@@ -271,25 +324,38 @@
     };
     var ref1 = firebase.database().ref().child("/public/products/category/");
     $scope.subsliders_ = $firebaseArray(ref1);
-    var value ;
-    $scope.subsliders_.$loaded().then((notes)=>{
-    value = new Array(notes.length);
-     for (var i = 0; i < value.length; ++i) {
-        value[i] = 0;
+    // var value ;
+    $scope.subsliders_.$loaded().then(()=>{
+    value = new Array($scope.subsliders_.length);
+    for (var i = 0; i < value.length; ++i) {
+    value[i] = 450;
     }
-       return value;
-    });
     $scope.nextsubslider = (e,n) =>{
+    // <
+    if (value[e] <= 449) {
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
+    }
+    
     return value;
+    
     };
     $scope.prevsubslider = (e,n) =>{
+    var counts = document.getElementsByClassName('subsliderimg')[e];
+    var  count = counts.getElementsByTagName('img').length;
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    x = Math.round(w-(count * 262))
+    console.log(x);
+    console.log(value[e]);
+    if(x <= value[e]){
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
+    }
+    
     return value;
     };
-
+    });
+    
     });
     
     function showSlides(n) {
