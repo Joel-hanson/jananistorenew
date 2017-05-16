@@ -201,19 +201,20 @@
         padding:  20px 0 0 0;
         margin: 20px 0 30px 0;
         }
-.mobilesubslider{
-    display: flex;align-items: center;justify-content: center;
-}
+        .mobilesubslider{
+        display: flex;align-items: center;justify-content: center;
+        }
         .subsliderimg{
         position: absolute;
         display: flex;
         overflow-x: hidden;
         margin-top: 60px;
-        top: 80px;
+        top: 50px;
         }
         .subsliderimg img{
-        width: 100%;
-        height: 180px;
+        width: 220px;
+        height: 220px;
+        display: none;
         }
         .leftsubsliderarrow,.rightsubsliderarrow{
         width: 50px;
@@ -225,7 +226,6 @@
         display: flex;
         align-items: center;justify-content: center;
         top: 200px;
-
         }
         .rightsubsliderarrow{
         right:  0;
@@ -287,19 +287,18 @@
         <section class="subslidersection">
             
             <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index" >
-            <div class="mobilesubslider">
-                <div class="subsliderimg">
-                    <!-- <img  ng-repeat="sub in subslider" ng-src="{{sub.ImageUrl}}" alt="Subslider images"> -->
-                    <img src="https://unsplash.it/200/200" alt="">
+                <div class="mobilesubslider">
+                    <div class="subsliderimg">
+                        <img  ng-repeat="sub in subslider" ng-src="{{sub.ImageUrl}}" alt="Subslider images">
+                    </div>
                 </div>
-            </div>
                 
                 <div class="subslider_">
                     <div class="subslidercard_">
                         <h1>{{subslider.$id}}</h1>
                     </div>
-                    <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,250)" >&#10094;</a></div>
-                    <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-250)" >&#10095;</a></div>
+                    <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,250,1)" >&#10094;</a></div>
+                    <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-250,-1)" >&#10095;</a></div>
                 </div>
             </div>
         </section>
@@ -308,8 +307,9 @@
     </body>
     <script>
     var slideIndex = 1;
+    var subsliderindex = 1;
+    // showsubslider(subsliderindex);
     var slideshow = angular.module("slideshow", ["firebase"]);
-    showSlides(slideIndex);
     function plusSlides(n) {
     showSlides(slideIndex += n);
     }
@@ -329,27 +329,43 @@
     value = new Array($scope.subsliders_.length);
     for (var i = 0; i < value.length; ++i) {
     value[i] = 450;
+
     }
-    $scope.nextsubslider = (e,n) =>{
+    
+    $scope.nextsubslider = (e,n,k) =>{
     // <
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var counts = document.getElementsByClassName('subsliderimg')[e];
+    var  count = counts.getElementsByTagName('img').length;
+    if (w>720) {
     if (value[e] <= 449) {
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
     }
-    
+    }
+    else{
+    showsubslider(e,subsliderindex += k);
+
+    }
     return value;
     
     };
-    $scope.prevsubslider = (e,n) =>{
+    $scope.prevsubslider = (e,n,k) =>{
+    // >
     var counts = document.getElementsByClassName('subsliderimg')[e];
     var  count = counts.getElementsByTagName('img').length;
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     x = Math.round(w-(count * 262))
-    console.log(x);
-    console.log(value[e]);
+    if (w > 720) {
     if(x <= value[e]){
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
+    }
+   
+    }
+    
+     else{
+    showsubslider(e,subsliderindex += k);
     }
     
     return value;
@@ -377,8 +393,49 @@
     slides[slideIndex - 1].style.display = "block";
     dots[slideIndex - 1].className += " active";
     }
+
+
+
+    function showsubslider(e,n) {
+    var i,j;
+    var slides = document.getElementsByClassName("subsliderimg");
+console.log(e,n);
+
+    // for (i = 0 ;i<slides.length; i++) {
+        
+ for (j=0 ; j< slides[e].getElementsByTagName("img").length ; j++) {
+        slides[e].getElementsByTagName("img")[j].style.display = "none";
+      }
+      if (n > slides[e].getElementsByTagName("img").length) {
+    subsliderindex = 1;
+    }
+    if (n < 1) {
+    subsliderindex = slides[e].getElementsByTagName("img").length;
+    }
+   slides[e].getElementsByTagName("img")[subsliderindex-1].style.display="block";
+    }
+    
+
+
+
+ setTimeout(function () {
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    if(w<720){
+        var slides = document.getElementsByClassName("subsliderimg");
+    for (i = 0 ;i<slides.length; i++) {
+showsubslider(i,subsliderindex);
+console.log(i);
+    }
+          
+    }
+    }, 5000);
+
+
+
+
     window.setInterval(function () {
-    plusSlides(1)
+    plusSlides(1);
+
     }, 9000);
     </script>
     <script>
