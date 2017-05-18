@@ -124,61 +124,72 @@
         }
         @media screen and (min-width: 720px) {
         .subsliders{
-        background-color: #fff;
         position: relative;
         width: 100%;
-        height: 400px;
+        height: 300px;
+        margin:0 0 16px 0;
         }
         .subslidercard_{
-        width: 300px;
+        width: 238px;
         height: 300px;
-        box-shadow: 0 20px 20px 10px rgba(46,61,73,.15);
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
         transition: all .3s ease;
         border-radius: 12px;
-        margin: 30px;
-        background-color: #EEEEEE;
+        margin: 0 12px 0 12px;
+        background-color: #fff;
         position: absolute;
         display: flex;
         align-items: center;justify-content: center;
         font-family: 'Roboto', sans-serif;
         }
-        .subslidercard_:hover{
-        box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
+        .cardsub{
+        text-align: center;
         }
         
         .subsliderimg{
         position: absolute;
         display: flex;
         overflow-x: hidden;
-        transform: translateX(450px);
-        margin-top: 60px;
-        transition: transform 1s ease-out;
+        transform: translateX(262px);
+        margin-top: 24px;
+        transition: all 0.3s ease;
         }
         .subsliderimg img{
         margin: 12px;
         width: 238px;
-        height: 238px;
+        height: 240px;
+        transition: all 0.3s ease;
         background-color: #EEEEEE;
         }
         .rightsubsliderarrow,.leftsubsliderarrow{
         width: 50px;
         height: 70px;
-        box-shadow: 0 20px 20px 10px rgba(46,61,73,.15);
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
         transition: all 0.3s ease;
-        border-radius: 9px;
-        background-color: #EEEEEE;
+        border-radius: 5px;
+        background-color: #fff;
         position: absolute;
         display: flex;
         align-items: center;justify-content: center;
         }
         .rightsubsliderarrow{
-        margin: 145px 0 0 0 ;
+        margin: 120px 0 0 0 ;
         right: 0;
         
         }
         
+        .leftsubsliderarrow{
+        margin:  120px 0 0 270px;
+        opacity: 0.5;
+        }
+        .op{
+        opacity: 0.5;
+        }
+        .opnon{
+        opacity: 0;
+        }
         .rightsubsliderarrow a,.leftsubsliderarrow a{
-        font-size: 50px;
+        font-size: 30px;
         text-decoration: none;
         color:#000;
         cursor: pointer;
@@ -187,10 +198,23 @@
         
         box-shadow: 2px 2px 10px 1px rgba(50,61,73,.2);
         }
-        .leftsubsliderarrow{
-        margin:  145px 0 0 390px;
+        .subsliderborder{
+        /*position: absolute;*/
+        /*margin:150px 0 0 330px;*/
+        margin-left: 230px;
+        background-color: #FFF;
+        width: 100%;
+        border: 16px solid #FFF;
+        height: 300px;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
         }
-        
+        .viewallbtn{
+        background-color: #3bae4f;
+        color: #fff;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+        border: none;
+        border-radius: 2px;    padding: 10px 20px;    font-weight: 500;transition: box-shadow .2s ease;cursor: pointer;
+        }
         }
         @media screen and (max-width: 721px) {
         .subsliders{
@@ -232,6 +256,7 @@
         }
         .leftsubsliderarrow{
         left:0;
+        opacity: 0.5;
         }
         
         .subslidercard_ h1{
@@ -259,7 +284,7 @@
                     </li>
                     <li class="navfull"><a href="#news">Team</a></li>
                     <li class="navfull"><a href="#contact">Contact</a></li>
-                    <li class="navfull"><a href="#about">About</a></li>
+                    <li class="navfull"><a href="/about.html">About</a></li>
                     <li class="searchli">
                         <form>
                             <input type="text" name="search" placeholder="Search..">
@@ -295,10 +320,17 @@
                 
                 <div class="subslider_">
                     <div class="subslidercard_">
-                        <h1>{{subslider.$id}}</h1>
+                        <div class="cardsub">
+                            <h1>{{subslider.$id}}</h1>
+                            <button class="viewallbtn">View all</button>
+                        </div>
+                        
                     </div>
-                    <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,250,1)" >&#10094;</a></div>
-                    <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-250,-1)" >&#10095;</a></div>
+                    <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,262,1)" >&#10094;</a></div>
+                    <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-262,-1)" >&#10095;</a></div>
+                    <div class="subsliderborder">
+                        
+                    </div>
                 </div>
             </div>
         </section>
@@ -306,9 +338,7 @@
         
     </body>
     <script>
-    var slideIndex = 1;
-    var subsliderindex = 1;
-    // showsubslider(subsliderindex);
+    var w,counts,count,slideIndex = 1, subsliderindex = 1;
     var slideshow = angular.module("slideshow", ["firebase"]);
     function plusSlides(n) {
     showSlides(slideIndex += n);
@@ -327,48 +357,66 @@
     // var value ;
     $scope.subsliders_.$loaded().then(()=>{
     value = new Array($scope.subsliders_.length);
+    q = new Array($scope.subsliders_.length);
     for (var i = 0; i < value.length; ++i) {
-    value[i] = 450;
-
+    value[i] = 262;
+    q[i]=0;
     }
     
     $scope.nextsubslider = (e,n,k) =>{
     // <
-    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    var counts = document.getElementsByClassName('subsliderimg')[e];
-    var  count = counts.getElementsByTagName('img').length;
+    w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    counts = document.getElementsByClassName('subsliderimg')[e];
+    count = counts.getElementsByTagName('img').length;
     if (w>720) {
-    if (value[e] <= 449) {
+    if (value[e] < 262) {
+    
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
+    document.getElementsByClassName("rightsubsliderarrow")[e].style.opacity = 1;
+    if(value[e]>=0){
+    q[e]=q[e]-1;
+    
+    counts.getElementsByTagName('img')[q[e]].style.opacity=1;
+    
+    }
+    }
+    else{
+    document.getElementsByClassName("leftsubsliderarrow")[e].style.opacity = 0.5;
     }
     }
     else{
     showsubslider(e,subsliderindex += k);
-
     }
-    return value;
-    
+    return value,q;
     };
     $scope.prevsubslider = (e,n,k) =>{
     // >
-    var counts = document.getElementsByClassName('subsliderimg')[e];
-    var  count = counts.getElementsByTagName('img').length;
-    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    counts = document.getElementsByClassName('subsliderimg')[e];
+    count = counts.getElementsByTagName('img').length;
     x = Math.round(w-(count * 262))
     if (w > 720) {
     if(x <= value[e]){
+    
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
+    document.getElementsByClassName("leftsubsliderarrow")[e].style.opacity = 1;
+    
+    if(value[e]<=0){
+    counts.getElementsByTagName('img')[q[e]].style.opacity=0;
+    q[e]=q[e]+1;
     }
-   
+    }
+    else{
+    document.getElementsByClassName("rightsubsliderarrow")[e].style.opacity = 0.5;
     }
     
-     else{
+    }
+    else{
     showsubslider(e,subsliderindex += k);
     }
-    
-    return value;
+    return value,q;
     };
     });
     
@@ -393,49 +441,37 @@
     slides[slideIndex - 1].style.display = "block";
     dots[slideIndex - 1].className += " active";
     }
-
-
-
     function showsubslider(e,n) {
     var i,j;
     var slides = document.getElementsByClassName("subsliderimg");
-console.log(e,n);
-
+    console.log(e,n);
     // for (i = 0 ;i<slides.length; i++) {
-        
- for (j=0 ; j< slides[e].getElementsByTagName("img").length ; j++) {
-        slides[e].getElementsByTagName("img")[j].style.display = "none";
-      }
-      if (n > slides[e].getElementsByTagName("img").length) {
+    
+    for (j=0 ; j< slides[e].getElementsByTagName("img").length ; j++) {
+    slides[e].getElementsByTagName("img")[j].style.display = "none";
+    }
+    if (n > slides[e].getElementsByTagName("img").length) {
     subsliderindex = 1;
     }
     if (n < 1) {
     subsliderindex = slides[e].getElementsByTagName("img").length;
     }
-   slides[e].getElementsByTagName("img")[subsliderindex-1].style.display="block";
+    slides[e].getElementsByTagName("img")[subsliderindex-1].style.display="block";
     }
     
-
-
-
- setTimeout(function () {
+    setTimeout(function () {
     var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     if(w<720){
-        var slides = document.getElementsByClassName("subsliderimg");
+    var slides = document.getElementsByClassName("subsliderimg");
     for (i = 0 ;i<slides.length; i++) {
-showsubslider(i,subsliderindex);
-console.log(i);
+    showsubslider(i,subsliderindex);
+    console.log(i);
     }
-          
+    
     }
     }, 5000);
-
-
-
-
     window.setInterval(function () {
     plusSlides(1);
-
     }, 9000);
     </script>
     <script>
