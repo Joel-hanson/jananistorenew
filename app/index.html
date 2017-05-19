@@ -374,9 +374,9 @@
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
     document.getElementsByClassName("rightsubsliderarrow")[e].style.opacity = 1;
-    if(value[e]>=0){
+
+    if(value[e]<=262){
     q[e]=q[e]-1;
-    
     counts.getElementsByTagName('img')[q[e]].style.opacity=1;
     
     }
@@ -402,10 +402,12 @@
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
     document.getElementsByClassName("leftsubsliderarrow")[e].style.opacity = 1;
-    
+
+
     if(value[e]<=0){
     counts.getElementsByTagName('img')[q[e]].style.opacity=0;
     q[e]=q[e]+1;
+
     }
     }
     else{
@@ -444,7 +446,6 @@
     function showsubslider(e,n) {
     var i,j;
     var slides = document.getElementsByClassName("subsliderimg");
-    console.log(e,n);
     // for (i = 0 ;i<slides.length; i++) {
     
     for (j=0 ; j< slides[e].getElementsByTagName("img").length ; j++) {
@@ -465,7 +466,6 @@
     var slides = document.getElementsByClassName("subsliderimg");
     for (i = 0 ;i<slides.length; i++) {
     showsubslider(i,subsliderindex);
-    console.log(i);
     }
     
     }
