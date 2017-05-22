@@ -31,6 +31,10 @@
 		cursor:pointer;
 		text-decoration: none;
 		}
+		.grid1{
+			display: inline-grid;
+			border: 1px solid black;
+		}
 		</style>
 	</head>
 	<body  ng-app="mainpage" >
@@ -41,55 +45,46 @@
 			</h1>
 		</div>
 		<main ng-controller="mainslider">
-		<h2>main slider</h2>
-		<ol class="mainsliderlist" >
-			<div class="list" ng-repeat="list in lists track by $index" >
-				
-				<li><img ng-src="{{list.ImageUrl}}" alt="slideimages"><a ng-click="dele(list.$id)">x</a></li>
-				
-			</div>
-			Add:<select ng-options="category.$id for category in categorys" ng-click="sele()" ng-model="selected">
-			</select>
-			<div class="list" ng-repeat="sele in selects track by $index" >
-				
-				<li><img ng-src="{{sele.ImageUrl}}" ng-click="selecte(sele.ImageUrl)" alt="slideimages"></li>
-				
-			</div>
-		</ol>
+		<div class="grid1">
+			
+			<h2>main slider</h2>
+			<ol class="mainsliderlist" >
+				<div class="list" ng-repeat="list in lists track by $index" >
+					
+					<li><img ng-src="{{list.ImageUrl}}" alt="slideimages"><a ng-click="dele(list.$id)">x</a></li>
+					
+				</div>
+				Add:<select ng-options="category.$id for category in categorys" ng-click="sele()" ng-model="selected">
+				</select>
+				<div class="list" ng-repeat="sele in selects track by $index" >
+					
+					<li><img ng-src="{{sele.ImageUrl}}" ng-click="selecte(sele)" alt="slideimages"></li>
+					
+				</div>
+			</ol>
+			
+		</div>
+		<div class="grid1">
+			<h2>mainpageitems</h2>
+			<ul class="mainsliderlist">
+				<div class="list" ng-repeat="main in mainorders track by $index">
+					
+					<li><p>{{main.$id}}</p><a ng-click="delet(main.$id)">x</a></li>
+					
+				</div>
+				Add:
+				<div class="list"  ng-repeat="(id, item) in categorys_" >
+					
+					<li><a style="font-size: 20px" ng-click="selemain(id,item)">{{id}}</a></li>
+				</div>
+			</ul>
+		</div>
 		</main>
 		
 		
 	</body>
 	<script type="text/javascript">
-	var mainpage = angular.module("mainpage", ["firebase"]);
-	//
-	mainpage.controller('mainslider', function ($scope,$firebaseArray) {
-	var ref = firebase.database().ref().child("/public/mainslider/");
-	$scope.lists = $firebaseArray(ref);
-	
-	var ref1 = firebase.database().ref().child("/public/products/category/");
-	$scope.categorys = $firebaseArray(ref1);
-
-
-	$scope.sele = function(ids){
-	var ref2 = firebase.database().ref().child("/public/products/category/"+$scope.selected.$id);
-	$scope.selects = $firebaseArray(ref2);
-		};
-
-	$scope.selecte = function(idss){
-	
-	$scope.lists.$add({ImageUrl:idss})
-	};
-
-	
-	$scope.dele=function(sas){
-
-	$scope.lists.$remove($scope.lists.$getRecord(sas));
-	};
-	});
-	</script>
-	<script>
-	var config = {
+		let config = {
 	apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
 	authDomain: "jananistore-f4928.firebaseapp.com",
 	databaseURL: "https://jananistore-f4928.firebaseio.com",
@@ -99,5 +94,38 @@
 	};
 	firebase.initializeApp(config);
 	
+	let mainpage = angular.module("mainpage", ["firebase"]);
+	//
+	mainpage.controller('mainslider', function ($scope,$firebaseArray,$firebaseObject,$firebase) {
+	let ref = firebase.database().ref().child("/public/products/mainslider/");
+	$scope.lists = $firebaseArray(ref);
+	let ref1 = firebase.database().ref().child("/public/products/category/");
+	$scope.categorys = $firebaseArray(ref1);
+	$scope.categorys_ = $firebaseObject(ref1);
+
+	$scope.sele = function(){
+	let ref2 = firebase.database().ref().child("/public/products/category/"+$scope.selected.$id);
+	$scope.selects = $firebaseArray(ref2);
+		};
+	$scope.selecte = function(idss){
+	$scope.lists.$add(idss)
+	};
+	$scope.dele=function(sas){
+	$scope.lists.$remove($scope.lists.$getRecord(sas));
+	};
+
+
+
+	let mainorders = firebase.database().ref().child("/public/products/mainpage/");
+	$scope.mainorders = $firebaseArray(mainorders);
+	$scope.delet = (sas) =>{
+	$scope.mainorders.$remove($scope.mainorders.$getRecord(sas));
+	};
+	$scope.selemain = function(id,idss){
+	let mainorders_ = firebase.database().ref().child("/public/products/mainpage/"+id);
+mainorders_.set(idss);
+	};
+	});
+
 	</script>
 </html>
