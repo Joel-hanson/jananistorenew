@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Bootstrap Case</title>
+        <title>Jananistore</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/css/full_styles.css" preload>
@@ -15,6 +15,8 @@
         padding: 0;
         background-color: #EEEEEE;
         overflow-x: hidden;
+        font-family: "Roboto",sans-serif;
+letter-spacing: 0;
         }
         
         .nav ul {
@@ -126,12 +128,12 @@
         .subsliders{
         position: relative;
         width: 100%;
-        height: 300px;
+        max-height: 410px;
         margin:0 0 16px 0;
         }
         .subslidercard_{
         width: 238px;
-        height: 300px;
+        height: 410px;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
         transition: all .3s ease;
         border-radius: 12px;
@@ -153,11 +155,13 @@
         transform: translateX(262px);
         margin-top: 24px;
         transition: all 0.3s ease;
+        align-items: center;
+        justify-content: center;
         }
         .subsliderimg img{
         margin: 12px;
         width: 238px;
-        height: 240px;
+        height: 220px;
         transition: all 0.3s ease;
         background-color: #EEEEEE;
         }
@@ -205,7 +209,7 @@
         background-color: #FFF;
         width: 100%;
         border: 16px solid #FFF;
-        height: 300px;
+        height: 410px;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
         }
         .viewallbtn{
@@ -221,7 +225,7 @@
         background-color: #fff;
         position: relative;
         width: 100%;
-        height: 400px;
+        height: 300px;
         padding:  20px 0 0 0;
         margin: 20px 0 30px 0;
         }
@@ -265,6 +269,36 @@
         font-family: 'Roboto', sans-serif;
         text-align: center;
         }
+        }
+        .adscard{
+        background-color: #fff;
+        width: 100%;
+        margin: 12px;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+        border-radius: 5px;
+        }
+        .adscardimg{
+        height: 300px;
+        width:50%;
+        display: inline-block;
+        /*margin: 12px;*/
+        padding: 12px;
+        }
+        .subslideritemname,.subslideritemprice {
+        display: block;
+        overflow:hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        width: 220px;
+        white-space: nowrap;
+        margin:12px 16px 16px;
+        }
+        .subslideritemname{
+font-weight: 600;
+            font-size:16px;            
+        }
+        .subslideritemprice{
+            font-size:14px; 
         }
         </style>
     </head>
@@ -311,26 +345,45 @@
         </section>
         <section class="subslidersection">
             
-            <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index" >
-                <div class="mobilesubslider">
-                    <div class="subsliderimg">
-                        <img  ng-repeat="sub in subslider" ng-src="{{sub.ImageUrl}}" alt="Subslider images">
+            <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index"  >
+                <div ng-if="subslider.$id.substring(0,3) != 'ads'">
+                    
+                    
+                    <div class="mobilesubslider" >
+                        <div class="subsliderimg">
+                            <div ng-repeat="sub in subslider">
+                                <img ng-src="{{sub.ImageUrl}}" alt="Subslider images">
+                                <div class="subslideritemname">{{sub.NameOfTheItem}}</div>
+                                <div class="subslideritemprice">Now ₹{{sub.price}}</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="subslider_" >
+                        <div class="subslidercard_">
+                            <div class="cardsub">
+                                <h1>{{subslider.$id}}</h1>
+                                <button class="viewallbtn">VIEW ALL</button>
+                            </div>
+                        </div>
+                        <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,262,1)" >&#10094;</a></div>
+                        <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-262,-1)" >&#10095;</a></div>
+                        <div class="subsliderborder">
+                            
+                        </div>
+                        <div>
+                            
+                        </div>
                     </div>
                 </div>
-                
-                <div class="subslider_">
-                    <div class="subslidercard_">
-                        <div class="cardsub">
-                            <h1>{{subslider.$id}}</h1>
-                            <button class="viewallbtn">View all</button>
-                        </div>
-                        
+                <div ng-if="subslider.$id.substring(0,3) == 'ads' " >
+                    <div class="subsliderimg" style="display: none"></div>
+                    <div class="adscard">
+                        <img class="adscardimg" ng-repeat="sub in subslider" ng-src="{{sub}}" alt="asas">
                     </div>
-                    <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,262,1)" >&#10094;</a></div>
-                    <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-262,-1)" >&#10095;</a></div>
-                    <div class="subsliderborder">
-                        
-                    </div>
+                    <div class="leftsubsliderarrow" style="display: none">&#10094;</div>
+                    <div class="rightsubsliderarrow" style="display: none">&#10095;</div>
                 </div>
             </div>
         </section>
@@ -338,6 +391,7 @@
         
     </body>
     <script>
+let con = (a) => console.log(a);
     var w,counts,count,slideIndex = 1, subsliderindex = 1;
     var slideshow = angular.module("slideshow", ["firebase"]);
     function plusSlides(n) {
@@ -347,12 +401,12 @@
     showSlides(slideIndex = n);
     }
     slideshow.controller('slider', function ($scope,$firebaseObject,$firebaseArray) {
-    var ref = firebase.database().ref().child("/public/mainslider/");
+    var ref = firebase.database().ref().child("/public/products/mainslider/");
     $scope.links = $firebaseObject(ref);
     $scope.currentSlid = (e) => {
     currentSlide(e+1);
     };
-    var ref1 = firebase.database().ref().child("/public/products/category/");
+    var ref1 = firebase.database().ref().child("/public/products/mainpage/");
     $scope.subsliders_ = $firebaseArray(ref1);
     // var value ;
     $scope.subsliders_.$loaded().then(()=>{
@@ -362,7 +416,6 @@
     value[i] = 262;
     q[i]=0;
     }
-    
     $scope.nextsubslider = (e,n,k) =>{
     // <
     w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -374,11 +427,12 @@
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
     document.getElementsByClassName("rightsubsliderarrow")[e].style.opacity = 1;
-
     if(value[e]<=262){
     q[e]=q[e]-1;
     counts.getElementsByTagName('img')[q[e]].style.opacity=1;
-    
+    counts.getElementsByClassName('subslideritemname')[q[e]].style.opacity=1;
+    counts.getElementsByClassName('subslideritemprice')[q[e]].style.opacity=1;
+    con(counts.getElementsByClassName('subslideritemprice')[q[e]]);
     }
     }
     else{
@@ -398,16 +452,17 @@
     x = Math.round(w-(count * 262))
     if (w > 720) {
     if(x <= value[e]){
-    
     value[e]  = value[e] +n;
     document.getElementsByClassName("subsliderimg")[e].style.transform = "translateX("+value[e]+"px)";
     document.getElementsByClassName("leftsubsliderarrow")[e].style.opacity = 1;
-
-
     if(value[e]<=0){
     counts.getElementsByTagName('img')[q[e]].style.opacity=0;
+    con(counts.getElementsByClassName('subslideritemname')[q[e]]);
+    counts.getElementsByClassName('subslideritemname')[q[e]].style.opacity=0;
+    counts.getElementsByClassName('subslideritemprice')[q[e]].style.opacity=0;
+    con(counts.getElementsByClassName('subslideritemprice')[q[e]]);
+    
     q[e]=q[e]+1;
-
     }
     }
     else{
@@ -473,8 +528,6 @@
     window.setInterval(function () {
     plusSlides(1);
     }, 9000);
-    </script>
-    <script>
     var config = {
     apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
     authDomain: "jananistore-f4928.firebaseapp.com",
