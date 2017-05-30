@@ -1,131 +1,235 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>jananistore|console</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script>
-		<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js" preload></script>
-		<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script>
-		<style>
-			html,body{
-				margin: 0;
-				padding: 0;
-				font-family: sans-serif;
-			}
-			h1
-			{
-				text-align: : center;
-			}
-		.heading{
+
+<head>
+	<title>jananistore|console</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" preload></script>
+	<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js" preload></script>
+	<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js" preload></script>
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+		}
+
+		h1 {
+			text-align: : center;
+		}
+
+		.heading {
 			display: flex;
-			align-items: center;justify-content: center;
+			align-items: center;
+			justify-content: center;
 		}
-		li.mainsliderlist{
-		list-style-type:numbers;
+
+		li.mainsliderlist {
+			list-style-type: numbers;
 		}
-		.list img{
-		width: 100px;
+
+		.list img {
+			width: 100px;
 		}
-		li a{
+
+		li a {
 			display: inline;
-		font-size: 30px;
-		cursor:pointer;
-		text-decoration: none;
+			font-size: 30px;
+			cursor: pointer;
+			text-decoration: none;
 		}
-		.grid1{
+
+		.grid1 {
 			display: inline-grid;
 			border: 1px solid black;
 		}
-		</style>
-	</head>
-	<body  ng-app="mainpage" >
-		<div class="heading">
-			<h1>
-			
-			Jananistore Console :3
-			</h1>
-		</div>
-		<main ng-controller="mainslider">
+
+		.customdom,
+		.adsdom {
+			margin-top: 25px;
+		}
+
+		.adsdom {
+			display: none;
+		}
+		#addsliderselector{
+			display: none;
+		}
+	</style>
+</head>
+
+<body ng-app="mainpage">
+	<div class="heading">
+		<h1>
+
+			Jananistore Console 
+		</h1>
+	</div>
+	<main ng-controller="mainslider">
 		<div class="grid1">
-			
+
 			<h2>main slider</h2>
-			<ol class="mainsliderlist" >
-				<div class="list" ng-repeat="list in lists track by $index" >
-					
+			<ol class="mainsliderlist">
+				<div class="list" ng-repeat="list in lists track by $index">
 					<li><img ng-src="{{list.ImageUrl}}" alt="slideimages"><a ng-click="dele(list.$id)">x</a></li>
-					
 				</div>
 				Add:<select ng-options="category.$id for category in categorys" ng-click="sele()" ng-model="selected">
 				</select>
-				<div class="list" ng-repeat="sele in selects track by $index" >
-					
+				<div class="list" ng-repeat="sele in selects track by $index">
 					<li><img ng-src="{{sele.ImageUrl}}" ng-click="selecte(sele)" alt="slideimages"></li>
-					
 				</div>
 			</ol>
-			
 		</div>
 		<div class="grid1">
 			<h2>mainpageitems</h2>
 			<ul class="mainsliderlist">
 				<div class="list" ng-repeat="main in mainorders track by $index">
-					
-					<li><p>{{main.$id}}</p><a ng-click="delet(main.$id)">x</a></li>
-					
+
+					<li>
+						<p>{{main.$id}}</p><a ng-click="delet(main.$id)">x</a></li>
+
 				</div>
 				Add:
-				<div class="list"  ng-repeat="(id, item) in categorys_" >
-					
+				<div class="list" ng-repeat="(id, item) in categorys_">
+
 					<li><a style="font-size: 20px" ng-click="selemain(id,item)">{{id}}</a></li>
 				</div>
 			</ul>
 		</div>
-		</main>
-		
-		
-	</body>
-	<script type="text/javascript">
-		let config = {
-	apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
-	authDomain: "jananistore-f4928.firebaseapp.com",
-	databaseURL: "https://jananistore-f4928.firebaseio.com",
-	projectId: "jananistore-f4928",
-	storageBucket: "jananistore-f4928.appspot.com",
-	messagingSenderId: "538178486843"
+		<div class="grid1">
+			<h2>adding sliders</h2>
+			<ul class="mainsliderlist">
+				Add:<select id="addingslider">
+					<option value="ads">ads</option>
+					<option value="custom" selected>custom</option>
+				</select>
+				<div class="customdom">
+					<form name="myform" ng-submit="validate()">
+						name: <input type="text" name="customslider" ng-model="customslider">
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+				<div class="adsdom">
+					<form name="myform" ng-submit="validate()">
+						name: <input type="text" name="adsslider" ng-model="adsslider">
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+
+				<div id="addsliderselector">
+				Add:<select ng-options="category.$id for category in categorys" ng-click="sele2()" ng-model="selected2">
+				</select>
+				<div class="list" ng-repeat="sele in selects2 track by $index">
+					<li><img ng-src="{{sele.ImageUrl}}" ng-click="selecte2(sele)" alt="slideimages"></li>
+				</div>
+				</div>
+			</ul>
+		</div>
+	</main>
+
+
+</body>
+<script type="text/javascript">
+		let x ; 
+let con = (e) => console.log(e); 
+	
+		let select = document.getElementById('addingslider');
+ 
+	let config = {
+		apiKey: "AIzaSyBCOoR4l7M6DyNIahR6H93Z5zpOTsZ_w-E",
+		authDomain: "jananistore-f4928.firebaseapp.com",
+		databaseURL: "https://jananistore-f4928.firebaseio.com",
+		projectId: "jananistore-f4928",
+		storageBucket: "jananistore-f4928.appspot.com",
+		messagingSenderId: "538178486843"
 	};
 	firebase.initializeApp(config);
-	
+
 	let mainpage = angular.module("mainpage", ["firebase"]);
 	//
-	mainpage.controller('mainslider', function ($scope,$firebaseArray,$firebaseObject,$firebase) {
-	let ref = firebase.database().ref().child("/public/products/mainslider/");
-	$scope.lists = $firebaseArray(ref);
-	let ref1 = firebase.database().ref().child("/public/products/category/");
-	$scope.categorys = $firebaseArray(ref1);
-	$scope.categorys_ = $firebaseObject(ref1);
+	mainpage.controller('mainslider', function ($scope, $firebaseArray, $firebaseObject, $firebase) {
+		let ref = firebase.database().ref().child("/public/products/mainslider/");
+		$scope.lists = $firebaseArray(ref);
 
-	$scope.sele = function(){
-	let ref2 = firebase.database().ref().child("/public/products/category/"+$scope.selected.$id);
-	$scope.selects = $firebaseArray(ref2);
+		let ref1 = firebase.database().ref().child("/public/products/category/");
+		$scope.categorys = $firebaseArray(ref1);
+		$scope.categorys_ = $firebaseObject(ref1);
+
+		$scope.sele = function () {
+			let ref2 = firebase.database().ref().child("/public/products/category/" + $scope.selected.$id);
+			$scope.selects = $firebaseArray(ref2);
 		};
-	$scope.selecte = function(idss){
-	$scope.lists.$add(idss)
-	};
-	$scope.dele=function(sas){
-	$scope.lists.$remove($scope.lists.$getRecord(sas));
-	};
+		$scope.selecte = function (idss) {
+			$scope.lists.$add(idss)
+		};
+		$scope.dele = function (sas) {
+			$scope.lists.$remove($scope.lists.$getRecord(sas));
+		};
 
 
 
-	let mainorders = firebase.database().ref().child("/public/products/mainpage/");
-	$scope.mainorders = $firebaseArray(mainorders);
-	$scope.delet = (sas) =>{
-	$scope.mainorders.$remove($scope.mainorders.$getRecord(sas));
-	};
-	$scope.selemain = function(id,idss){
-	let mainorders_ = firebase.database().ref().child("/public/products/mainpage/"+id);
-mainorders_.set(idss);
-	};
+		let mainorders = firebase.database().ref().child("/public/products/mainpage/");
+		$scope.mainorders = $firebaseArray(mainorders);
+		$scope.delet = (sas) => {
+			$scope.mainorders.$remove($scope.mainorders.$getRecord(sas));
+		};
+		$scope.selemain = function (id, idss) {
+			let mainorders_ = firebase.database().ref().child("/public/products/mainpage/" + id);
+			mainorders_.set(idss);
+		};
+		function onSelectChanged() {
+			con(select.value);
+			if (select.value == "ads") {
+				document.getElementsByClassName('adsdom')[0].style.display = "block";
+				document.getElementsByClassName('customdom')[0].style.display = "none";
+
+			} else {
+				document.getElementsByClassName('adsdom')[0].style.display = "none";
+		let select = document.getElementById('addingslider');
+				document.getElementsByClassName('customdom')[0].style.display = "block"
+			}
+		}
+		if (select.addEventListener) {
+			select.addEventListener('change', onSelectChanged, false);
+		} else {
+			select.attachEvent('onchange', onSelectChanged, false);
+		}
+$scope.validate = function (){
+	
+if($scope.adsslider){
+	document.getElementById('addsliderselector').style.display="block";
+		let ref1 = firebase.database().ref().child("/public/products/category/ads"  +$scope.adsslider );
+		$scope.lists_ = $firebaseArray(ref1);
+		console.log($scope.lists_);
+
+		$scope.sele2 = function () {
+			let ref2 = firebase.database().ref().child("/public/products/category/" + $scope.selected2.$id);
+			$scope.selects2 = $firebaseArray(ref2);
+		};
+		$scope.selecte2 = function (idss) {
+			$scope.lists_.$add(idss)
+		};
+		
+}
+if($scope.customslider)
+{
+	document.getElementById('addsliderselector').style.display="block";
+	let ref1 = firebase.database().ref().child("/public/products/category/"  +$scope.customslider );
+$scope.lists_ = $firebaseArray(ref1);
+		console.log($scope.lists_);
+
+		$scope.sele2 = function () {
+			let ref2 = firebase.database().ref().child("/public/products/category/" + $scope.selected2.$id);
+			$scope.selects2 = $firebaseArray(ref2);
+		};
+		$scope.selecte2 = function (idss) {
+			$scope.lists_.$add(idss)
+		};
+
+}
+};
+
 	});
+</script>
 
-	</script>
 </html>
