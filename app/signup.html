@@ -1,0 +1,185 @@
+<style>
+	html,body{
+		background-color: #cbfbcd;
+		font-family: 'Roboto' sans-serif;
+	}
+.cardmain{
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	margin: 0 5px 30px 5px;
+}
+.card{
+	display: inline-block;
+width: 400px;
+background-color: #fff;
+box-shadow: 0 2px 15px rgba(0,0,0,.1);
+padding: 20px 10px;
+max-width: 430px;
+text-align: center;
+}
+.register-title{
+	font-size: 32px;
+margin-top: 15px;
+color: #535766;
+text-align: center;
+}
+.register-easy{
+text-align: center;
+margin-top: 30px;
+}
+.para{
+	margin-top: 0;
+margin-bottom: 20px;
+	color: #94969f;
+font-size: 12px;
+}
+.btns{
+	margin-top: 10px;
+margin-bottom: 40px;
+text-align: center;
+}
+.logo{
+	height: 30px;
+}
+#facebook,#google{
+	margin-right: 15px;
+	padding-top:10px;
+margin-bottom: 0;
+display: inline-block;
+margin: 0 auto;
+width: 100%;
+max-width: 162px;
+position: relative;
+font-size: 13px;
+font-weight: 500;
+color: #696b79;
+height: 80px;
+border: 1px solid #bfc0c6;
+background-color: #fff;
+border-radius: 5px;
+text-align: center;
+}
+.logoname{
+	font-weight: 900;
+}
+.register-inputs{
+	margin: 20px;
+border: 1px solid #bfc0c6;
+border-radius: 5px;
+padding: 0;
+}
+.inputitem{
+	position: relative;
+	
+}
+.register-user-input{
+	display: block;
+color: #282c3f;
+font-size: 15px;
+padding-right: 40px;
+width: 100%;
+border: 0;
+padding: 15px;
+border-top: 1px solid #d5d6d9
+}
+.register-gender{
+	position: relative;
+border: 0;
+font-size: 13px;
+color: #696e79;
+text-align: left;
+padding: 15px;
+margin: 0;
+border-top: 1px solid #d5d6d9;
+border-bottom-left-radius: 5px;
+border-bottom-right-radius: 5px;
+}
+.registerbutton{
+	padding: 10px 20px;
+margin: 0;
+border: 0;
+}
+.registerbtn{
+	background-color: rgba(76, 175, 79, 1) ;
+color: #fff;
+font-size: 13px;
+font-weight: 900;
+letter-spacing: 2px;
+padding: 15px;
+display: block;
+width: 100%;
+border: 0;
+text-transform: uppercase;
+border-radius: 3px;
+}
+button,input{
+	cursor:pointer;
+}
+.register-container{
+	text-align: left;
+padding: 20px;
+}
+.register-login-link{
+	text-align: center;
+}
+.register-info-text{
+	color: #94969f;
+font-size: 12px;
+}
+.register-link{
+	cursor: pointer;
+text-decoration: none;
+color: rgba(76, 175, 79, 1) ;
+padding: 10px 0;
+font-size: 13px;
+margin:5px;
+}
+</style>
+<main>
+<div class="cardmain">
+	<div class="card">
+		<div>
+			<p class="register-title">Signup With Jananistore</p>
+		</div>
+		<div class="register-easy">
+			<p class="para">EASILY USING</p>
+			<div class="btns">
+				<button id="facebook" onclick="facebook()"><span><img class="logo" src="image/facebook.png" alt=""></span><p class="logoname">FACEBOOK</p></button>
+				<button id="google" onclick="google()"><span ><img class="logo" src="image/google.png" alt=""></span><p class="logoname">GOOGLE</p></button>
+			</div>
+		</div>
+		<div class="formitems">
+			
+			<p class="para">-OR USING EMAIL-</p>
+		</div>
+		<form action="">
+			<fieldset class="register-inputs">
+				<div class="inputitem">
+					<input type="email" class="register-user-input" name="email" placeholder="Your Email Address">
+				</div>
+				<div class="inputitem">
+					<input type="password" class="register-user-input" name="password" placeholder="Choose Password">
+				</div>
+				<div class="inputitem">
+					<input type="number" min="1000000000" max="9999999999" class="register-user-input" name="mobile" placeholder="Mobile Number">
+				</div>
+				<fieldset class="register-gender">
+					<legend class="register-gender-title">I'm a</legend>
+					<input type="radio" class="register-gender-radio" id="male" name="gender" value="M">
+					<label class="register-gender-label" for="male">Male</label>
+					<input type="radio" class="register-gender-radio" id="female" name="gender" value="F">
+					<label class="register-gender-label" for="female">Female</label>
+				</fieldset>
+			</fieldset>
+			<fieldset class="registerbutton">
+				<button class="registerbtn">REGISTER</button>
+			</fieldset>
+		</form>
+		<div class="register-container">
+			<div class="register-login-link"><span class="register-info-text">Already have an account?</span><a class="register-link" href="#!/login/">Login!</a></div>
+		</div>
+	</div>
+</div>
+</div>
+</main>

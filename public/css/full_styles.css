@@ -1,12 +1,16 @@
 @media screen and (min-width: 720px) {
-.nav li a {
+.nava {
 display: block;
 color: white;
 text-align: center;
 padding: 14px 16px;
 float: right;
-text-decoration: none;
 transition: background-color 0.5s ease, color 0.5s ease;
+}
+.nav li a{
+color: white;
+text-decoration: none;
+
 }
 .person {
 display: block;
@@ -205,7 +209,7 @@ display: block;
 .nav li.burger {
 display: block;
 color: white;
-padding: 14px 16px;
+padding: 25px 20px;
 background-image: url("../image/menu.svg");
 background-repeat: no-repeat;
 background-position: center;

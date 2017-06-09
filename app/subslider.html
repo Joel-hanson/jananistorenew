@@ -1,0 +1,52 @@
+ <section class="mainslider">
+            <div class="slideshow-container">
+                <div ng-repeat="link in links  track by $index">
+                    <div class="mySlides slideeffect">
+                        <img ng-src="{{link.ImageUrl}}" style="width:100%;height: 100%">
+                    </div>
+                </div>
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br>
+            <div style="text-align:center">
+                <span class="dot" ng-repeat="link in links  track by $index" ng-click="currentSlid($index)"></span>
+            </div>
+        </section>
+        <section class="subslidersection">
+            <div class="subsliders" ng-repeat="subslider in subsliders_ track by $index">
+                <div ng-if="subslider.$id.substring(0,3) != 'ads'">
+                    <div class="mobilesubslider">
+                        <div class="subsliderimg">
+                            <div ng-repeat="sub in subslider">
+                                <img ng-src="{{sub.ImageUrl}}" alt="Subslider images">
+                                <div class="subslideritemname">{{sub.NameOfTheItem}}</div>
+                                <div class="subslideritemprice">Now ₹{{sub.price}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="subslider_">
+                        <div class="subslidercard_">
+                            <div class="cardsub">
+                                <h1>{{subslider.$id}}</h1>
+                                <button class="viewallbtn">VIEW ALL</button>
+                            </div>
+                        </div>
+                        <div class="leftsubsliderarrow"><a ng-click="nextsubslider($index,262,1)">&#10094;</a></div>
+                        <div class="rightsubsliderarrow"><a ng-click="prevsubslider($index,-262,-1)">&#10095;</a></div>
+                        <div class="subsliderborder">
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="subslider.$id.substring(0,3) == 'ads' ">
+                    <div class="subsliderimg" style="display: none"></div>
+                    <div class="adscard">
+                        <img class="adscardimg" ng-repeat="sub in subslider" ng-src="{{sub}}" alt="asas">
+                    </div>
+                    <div class="leftsubsliderarrow" style="display: none">&#10094;</div>
+                    <div class="rightsubsliderarrow" style="display: none">&#10095;</div>
+                </div>
+            </div>
+        </section>
